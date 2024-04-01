@@ -1,0 +1,199 @@
+﻿@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models;
+@{
+    Layout = null;
+    var SEOTitle = "";
+    if (Model.HasProperty("seoTitle") && Model.Value("seoTitle") != null && Model.Value<string>("seoTitle") != "")
+    {
+        SEOTitle = Model.Value<string>("seoTitle");
+    }
+    var Keywords = "";
+    if (Model.HasProperty("metaKeywords") && Model.Value("metaKeywords") != null && Model.Value<string>("metaKeywords") != "")
+    {
+        Keywords = Model.Value<string>("metaKeywords");
+    }
+    var SEODescription = "";
+    if (Model.HasProperty("seoDescription") && Model.Value("seoDescription") != null && Model.Value<string>("seoDescription") != "")
+    {
+        SEODescription = Model.Value<string>("seoDescription");
+    }
+    var ConnonicalUrl = Configuration.DomainUrl.TrimEnd("/") + Configuration.UrlWithDomain(Model).TrimEnd("/");
+    var SharingImageUrl = "";
+    var SharingImageAlt = "";
+    if (Model.HasProperty("sharingImage") && Model.Value("sharingImage") != null && Model.Value<string>("sharingImage") != "")
+    {
+        SharingImageUrl = Model.Value<IPublishedContent>("sharingImage").Url();
+
+    }
+    if (Model.HasProperty("sharingImageAlt") && Model.Value("sharingImageAlt") != null && Model.Value<string>("sharingImageAlt") != "")
+    {
+        SharingImageAlt = Model.Value<string>("sharingImageAlt");
+
+    }
+    var HomePageID = Umbraco.Content(1062);
+    string stravailableText = "";
+    if (HomePageID.HasProperty("availableText") && HomePageID.Value("availableText") != null
+      && HomePageID.Value<string>("availableText") != "")
+    {
+        stravailableText = HomePageID.Value<string>("availableText");
+    }
+    string strleftButtonText = "", strrightButtonText = "";
+    var strleftLink = HomePageID.Value<Link>("leftLink");
+    var strrightLink = HomePageID.Value<Link>("rightLink");
+    if (HomePageID.HasProperty("leftButtonText") && HomePageID.Value("leftButtonText") != null
+      && HomePageID.Value<string>("leftButtonText") != "")
+    {
+        strleftButtonText = HomePageID.Value<string>("leftButtonText");
+    }
+    if (HomePageID.HasProperty("rightButtonText") && HomePageID.Value("rightButtonText") != null
+      && HomePageID.Value<string>("rightButtonText") != "")
+    {
+        strrightButtonText = HomePageID.Value<string>("rightButtonText");
+    }
+    var lstheaderLinks = HomePageID.Value<IEnumerable<Link>>("headerLinks");
+
+    var strProjectNameValue = "Lina";
+    var ContactPageclass = "";
+    if (Model.ContentType.Alias == "contactUs" || Model.ContentType.Alias == "privacyPolicyAndTermsOfUse")
+    {
+        ContactPageclass = "bu";
+    }
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="https://www.w3.org/1999/xhtml" lang="en">
+<head>
+    @if (Configuration.DomainUrl != null && Configuration.DomainUrl.ToLower().Contains(".sbronline.co.uk"))
+    {
+        <meta name="ROBOTS" content="NOINDEX, FOLLOW" />
+        <meta name="ROBOTS" content="INDEX, NOFOLLOW" />
+        <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    }
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+    <meta charset="utf-8" />
+    <title>
+        @{
+            var strProjectName = Configuration.SetOrGetProjectName(strProjectNameValue);
+            if (SEOTitle != null && SEOTitle.ToString().Trim().ToLower() == "home")
+            {
+                strProjectName = strProjectName;
+            }
+            else
+            {
+                strProjectName = SEOTitle + " &#8211; " + strProjectName;
+            }
+            @Html.Raw(strProjectName)
+        }
+    </title>
+    <meta name="description" id="metaPageDescription" content="@SEODescription" />
+    <link id="PostingCanonicalUrlCurrent1" rel="canonical" href="@ConnonicalUrl.TrimEnd('/')" />
+    <link rel="stylesheet" href="https://use.typekit.net/rts0swk.css" />
+    <link rel="Stylesheet" href="~/css/style.css?v=@DateTime.Now.Ticks" type="text/css" />
+    @{
+        var objSharingImage = "";
+        if (SharingImageUrl != null)
+        {
+            objSharingImage = Configuration.DomainUrl.TrimEnd('/') + SharingImageUrl;
+        }
+    }
+    <meta property="og:title" content="@SEOTitle" />
+    <meta property="og:image" content="@SharingImageUrl" />
+    <meta property="og:image:alt" content="@SharingImageAlt" />
+    <meta property="og:description" content="@SEODescription" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@strProjectNameValue" />
+    <meta name="twitter:title" content="@SEOTitle" />
+    <meta name="twitter:description" content="@SEODescription" />
+    <meta name="twitter:image" content="@SharingImageUrl" />
+    <meta property="twitter:image:alt" content="@SharingImageAlt" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body class="@ContactPageclass">
+    <div id="outer-wrapper">
+        <header>
+            <div id="header">
+                <a class="logo ir" href="@Configuration.DomainUrl.TrimEnd('/')" title="Lina">Lina</a>
+                <a class="menu ir" href="javascript:;">Menu</a>
+                <nav>
+                    <ul class="main-nav">
+                        <li><a href="#apartments">Apartments</a></li>
+                        <li><a href="#livingatlina">Living at Lina</a></li>
+                        <li><a href="#location">Location</a></li>
+                        <li>
+                            <a class="dd" href="#ourcommunityandcommitments">Our Community & Commitments</a>
+                            @if (lstheaderLinks != null)
+                            {
+                                <ul>
+                                    @foreach (var item in lstheaderLinks)
+                                    {
+                                        <li><a href="@item.Url.TrimEnd("/")">@item.Name</a></li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    </ul>
+                    <ul class="bf">
+                        @if (strleftLink != null)
+                        {
+                            <li><a href="@strleftLink.Url.TrimEnd("/")" target="@strleftLink.Target">@strleftButtonText</a></li>
+                        }
+                        @if (strrightLink != null)
+                        {
+                            <li><a href="@strrightLink.Url.TrimEnd("/")" target="@strrightLink.Target">@strrightButtonText</a></li>
+                        }
+                    </ul>
+                </nav>
+                @if (strleftLink != null)
+                {
+                    <a class="bk mobile" href="@strleftLink.Url.TrimEnd("/")" target="@strleftLink.Target">@strleftButtonText</a>
+                }
+            </div>
+        </header>
+        <main>
+            @RenderBody()
+            <section class="find-home-box">
+                <article>
+                    <h2>
+                        @if (!string.IsNullOrEmpty(stravailableText))
+                        {
+                            <span>@stravailableText</span>
+                        }
+                        @if (strleftLink != null)
+                        {
+                            <a class="btn" href="@strleftLink.Url.TrimEnd("/")" target="@strleftLink.Target">@strleftButtonText</a>
+                        }
+                        @if (strrightLink != null)
+                        {
+                            <a class="btn" href="@strrightLink.Url.TrimEnd("/")" target="@strrightLink.Target">@strrightButtonText</a>
+                        }
+                    </h2>
+                </article>
+            </section>
+        </main>
+        <footer>
+            <div id="footer">
+                <a class="logo ir" href="@Configuration.DomainUrl.TrimEnd('/')" title="Lina">Lina</a>
+                <ul>
+                    <li><a href="#apartments">APARTMENTS</a></li>
+                    <li><a href="#livingatlina">LIVING AT LINA</a></li>
+                    <li><a href="#location">LOCATION</a></li>
+                    <li><a href="#ourcommunityandcommitments">OUR COMMUNITY & COMMITMENTS</a></li>
+                </ul>
+                <p><a href="https://www.smallbackroom.com" target="_blank">Design by Small Back Room</a><a href="privacy.html">Privacy Policy + Terms of use</a></p>
+            </div>
+        </footer>
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script type="text/javascript" src="~/scripts/scripts.js?v=@DateTime.Now.Ticks"></script>
+    <!-- <script type="text/javascript" src="https://www.newwestend.com/scripts/slick.mins.js"></script> -->
+    <script type="text/javascript" src="~/scripts/slick.js"></script>
+    <!-- <script defer type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAqt5-DVJQVKIe4qPeMyaUUNLmEFmdU_GA&libraries=places&callback=LoadMap"></script>  -->
+    <!--<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.22/bundled/lenis.min.js"></script>-->
+
+</body>
+</html>

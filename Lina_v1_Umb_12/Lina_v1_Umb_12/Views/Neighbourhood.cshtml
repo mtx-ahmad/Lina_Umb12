@@ -1,0 +1,293 @@
+﻿@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Services;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models.Blocks;
+@using Lina_v1_Umb_12.Custom;
+@{
+    Layout = "WebBase.cshtml";
+    string strheaderImage = "", strheaderImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("headerImage") && Umbraco.AssignedContentItem.Value("headerImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("headerImage") != null)
+    {
+        strheaderImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("headerImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("headerImageAlt") && Umbraco.AssignedContentItem.Value("headerImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("headerImageAlt") != "")
+    {
+        strheaderImageAlt = Umbraco.AssignedContentItem.Value<string>("headerImageAlt");
+    }
+    string strheaderImageMobile = "", strheaderImageMobileAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("headerImageMobile") && Umbraco.AssignedContentItem.Value("headerImageMobile") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("headerImageMobile") != null)
+    {
+        strheaderImageMobile = Umbraco.AssignedContentItem.Value<IPublishedContent>("headerImageMobile").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("headerImageMobileAlt") && Umbraco.AssignedContentItem.Value("headerImageMobileAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("headerImageMobileAlt") != "")
+    {
+        strheaderImageMobileAlt = Umbraco.AssignedContentItem.Value<string>("headerImageMobileAlt");
+    }
+    if (strheaderImageMobile == "")
+    {
+        strheaderImageMobile = strheaderImage;
+        strheaderImageMobileAlt = strheaderImageAlt;
+    }
+
+    string strlogoText = "", strlogoTextAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("logoText") && Umbraco.AssignedContentItem.Value("logoText") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("logoText") != null)
+    {
+        strlogoText = Umbraco.AssignedContentItem.Value<IPublishedContent>("logoText").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("logoTextAlt") && Umbraco.AssignedContentItem.Value("logoTextAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("logoTextAlt") != "")
+    {
+        strlogoTextAlt = Umbraco.AssignedContentItem.Value<string>("logoTextAlt");
+    }
+    var strleftTopText = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftTopText") && Umbraco.AssignedContentItem.Value("leftTopText") != null
+           && Umbraco.AssignedContentItem.Value<string>("leftTopText") != "")
+    {
+        strleftTopText = Umbraco.AssignedContentItem.Value<string>("leftTopText");
+    }
+    //Content
+    var strleftDescription = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftDescription") && Umbraco.AssignedContentItem.Value("leftDescription") != null
+           && Umbraco.AssignedContentItem.Value<string>("leftDescription") != "")
+    {
+        strleftDescription = Umbraco.AssignedContentItem.Value<string>("leftDescription");
+    }
+    var lstmultiImages = Umbraco.AssignedContentItem.Value<IEnumerable<BlockListItem>>("multiImages");
+    //Left right image and description
+    var strheading = "";
+    if (Umbraco.AssignedContentItem.HasProperty("heading") && Umbraco.AssignedContentItem.Value("heading") != null
+           && Umbraco.AssignedContentItem.Value<string>("heading") != "")
+    {
+        strheading = Umbraco.AssignedContentItem.Value<string>("heading");
+    }
+    var strleftStandFirst = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftStandFirst") && Umbraco.AssignedContentItem.Value("leftStandFirst") != null
+           && Umbraco.AssignedContentItem.Value<string>("leftStandFirst") != "")
+    {
+        strleftStandFirst = Umbraco.AssignedContentItem.Value<string>("leftStandFirst");
+    }
+    string strrightSmallImage = "", strrightSmallImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("rightSmallImage") && Umbraco.AssignedContentItem.Value("rightSmallImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("rightSmallImage") != null)
+    {
+        strrightSmallImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("rightSmallImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("rightSmallImageAlt") && Umbraco.AssignedContentItem.Value("rightSmallImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("rightSmallImageAlt") != "")
+    {
+        strrightSmallImageAlt = Umbraco.AssignedContentItem.Value<string>("rightSmallImageAlt");
+    }
+    string strleftSmallImage = "", strleftSmallImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftSmallImage") && Umbraco.AssignedContentItem.Value("leftSmallImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("leftSmallImage") != null)
+    {
+        strleftSmallImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("leftSmallImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("leftSmallImageAlt") && Umbraco.AssignedContentItem.Value("leftSmallImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("leftSmallImageAlt") != "")
+    {
+        strleftSmallImageAlt = Umbraco.AssignedContentItem.Value<string>("leftSmallImageAlt");
+    }
+    var strrightStandFirst = "";
+    if (Umbraco.AssignedContentItem.HasProperty("rightStandFirst") && Umbraco.AssignedContentItem.Value("rightStandFirst") != null
+       && Umbraco.AssignedContentItem.Value<string>("rightStandFirst") != "")
+    {
+        strrightStandFirst = Umbraco.AssignedContentItem.Value<string>("rightStandFirst");
+    }
+    var strleftIntro = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftIntro") && Umbraco.AssignedContentItem.Value("leftIntro") != null
+       && Umbraco.AssignedContentItem.Value<string>("leftIntro") != "")
+    {
+        strleftIntro = Umbraco.AssignedContentItem.Value<string>("leftIntro");
+    }
+
+    string strrightImage = "", strrightImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("rightImage") && Umbraco.AssignedContentItem.Value("rightImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("rightImage") != null)
+    {
+        strrightImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("rightImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("rightImageAlt") && Umbraco.AssignedContentItem.Value("rightImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("rightImageAlt") != "")
+    {
+        strrightImageAlt = Umbraco.AssignedContentItem.Value<string>("rightImageAlt");
+    }
+
+    string strleftShortImage = "", strleftShortImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftShortImage") && Umbraco.AssignedContentItem.Value("leftShortImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("leftShortImage") != null)
+    {
+        strleftShortImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("leftShortImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("leftShortImageAlt") && Umbraco.AssignedContentItem.Value("leftShortImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("leftShortImageAlt") != "")
+    {
+        strleftShortImageAlt = Umbraco.AssignedContentItem.Value<string>("leftShortImageAlt");
+    }
+
+    string strrightLargeImage = "", strrightLargeImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("rightLargeImage") && Umbraco.AssignedContentItem.Value("rightLargeImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("rightLargeImage") != null)
+    {
+        strrightLargeImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("rightLargeImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("rightLargeImageAlt") && Umbraco.AssignedContentItem.Value("rightLargeImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("rightLargeImageAlt") != "")
+    {
+        strrightLargeImageAlt = Umbraco.AssignedContentItem.Value<string>("rightLargeImageAlt");
+    }
+
+    //Left text and right image
+    string strleftText = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftText") && Umbraco.AssignedContentItem.Value("leftText") != null
+       && Umbraco.AssignedContentItem.Value<string>("leftText") != "")
+    {
+        strleftText = Umbraco.AssignedContentItem.Value<string>("leftText");
+    }
+    string strrightShortImage = "", strrightShortImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("rightShortImage") && Umbraco.AssignedContentItem.Value("rightShortImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("rightShortImage") != null)
+    {
+        strrightShortImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("rightShortImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("rightShortImageAlt") && Umbraco.AssignedContentItem.Value("rightShortImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("rightShortImageAlt") != "")
+    {
+        strrightShortImageAlt = Umbraco.AssignedContentItem.Value<string>("rightShortImageAlt");
+    }
+}
+@if (!string.IsNullOrEmpty(strheaderImage))
+{
+    <section class="intro-img-box lg neighb">
+        <figure class="pattern" style="background-image:url(@strheaderImage);"></figure>
+        <img src="@strheaderImage" alt="@strheaderImageAlt" style="display:none">
+      @*  <figure class="pattern mobile" style="background-image:url(@strheaderImageMobile);"></figure>
+        <img src="@strheaderImageMobile" alt="@strheaderImageMobileAlt" style="display:none">*@
+        <!-- <video src="images/home-video.mp4" poster="images/img--home-poster.jpg" muted autoplay muted playsinline loop></video> -->
+        <!-- <video src="images/home-video.mp4" type="video/mp4" poster="images/img--home-poster.jpg" muted loop
+            autoplay playsinline>
+            Sorry, your browser doesn't support HTML5 video tag.
+        </video> -->
+        <section class="description bt info">
+            <div class="inner">
+                @if (!string.IsNullOrEmpty(strlogoText))
+                {
+                    <img alt="@strlogoTextAlt" src="@strlogoText" />
+                }
+                @if (!string.IsNullOrEmpty(strleftTopText))
+                {
+                    <p class="ht info">@strleftTopText</p>
+                }
+            </div>
+        </section>
+    </section>
+}
+@if (!string.IsNullOrEmpty(strleftTopText))
+{
+    <section class="intro-text-box neighb">
+        <div class="inner">
+            <article class="neib">
+                @Html.Raw(strleftDescription)
+            </article>
+        </div>
+    </section>
+}
+@if (lstmultiImages != null && lstmultiImages.Count() > 0)
+{
+    int CountVlaue = 1;
+    <section class="neib-grid-box">
+        <div class="inner">
+            <article>
+                @foreach (var conn in lstmultiImages)
+                {
+                    var item = conn.Content;
+                    string strImage = "", strImageAlt = "";
+                    if (item.HasProperty("image") && item.Value("image") != null
+                    && item.Value<IPublishedContent>("image") != null)
+                    {
+                        strImage = item.Value<IPublishedContent>("image").Url();
+                    }
+                    if (item.HasProperty("imageAlt") && item.Value("imageAlt") != null
+                    && item.Value<string>("imageAlt") != "")
+                    {
+                        strImageAlt = item.Value<string>("imageAlt");
+                    }
+                    var strFinalClass = "g" + CountVlaue;
+                    <figure class="@strFinalClass" style="background-image: url(@strImage);"><img alt="@strImageAlt" src="@strImage" /></figure>
+                    CountVlaue++;
+                }
+
+            </article>
+        </div>
+    </section>
+}
+<section class="greenspace-leisure" id="greenspaceandleisure">
+    <div class="inner">
+        @if (!string.IsNullOrEmpty(strheading))
+        {
+            <h2 class="hd">@strheading</h2>
+        }
+        <article class="col-box c1">
+            @if (!string.IsNullOrEmpty(strleftStandFirst))
+            {
+                <section>
+                    @Html.Raw(strleftStandFirst)
+                </section>
+            }
+            @if (!string.IsNullOrEmpty(strrightSmallImage))
+            {
+                <figure><img alt="@strrightSmallImageAlt" src="@strrightSmallImage" /></figure>
+            }
+        </article>
+        <article class="col-box c2">
+            @if (!string.IsNullOrEmpty(strleftSmallImage))
+            {
+                <figure><img alt="@strleftSmallImageAlt" src="@strleftSmallImage" /></figure>
+            }
+            @if (!string.IsNullOrEmpty(strrightStandFirst))
+            {
+                <section>
+                    @Html.Raw(strrightStandFirst)
+                </section>
+            }
+        </article>
+        <article class="col-box c3">
+            @if (!string.IsNullOrEmpty(strrightStandFirst))
+            {
+                <section>
+                    @Html.Raw(strleftIntro)
+                </section>
+            }
+            @if (!string.IsNullOrEmpty(strrightImage))
+            {
+                <figure><img alt="@strrightImageAlt" src="@strrightImage" /></figure>
+            }
+            @if (!string.IsNullOrEmpty(strleftShortImage))
+            {
+                <figure class="sm"><img alt="@strleftShortImageAlt" src="@strleftShortImage" /></figure>
+            }
+            @if (!string.IsNullOrEmpty(strrightLargeImage))
+            {
+                <figure class="lg"><img alt="@strrightLargeImageAlt" src="@strrightLargeImage" /></figure>
+            }
+        </article>
+        <article class="col-box c4">
+            @if (!string.IsNullOrEmpty(strleftText))
+            {
+                <section>
+                    @Html.Raw(strleftText)
+                </section>
+            }
+            @if (!string.IsNullOrEmpty(strrightShortImage))
+            {
+                <figure><img alt="@strrightShortImageAlt" src="@strrightShortImage" /></figure>
+            }
+        </article>
+    </div>
+</section>  

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="160.04" viewBox="0 0 140 160.04">
+  <g id="Group_8077" data-name="Group 8077" transform="translate(-167 -2849.916)">
+    <text id="No_deposit_required" data-name="No deposit required" transform="translate(167 2969.956)" fill="#2c3408" font-size="18" font-family="FranklinGothicURW-Boo, FranklinGothic URW"><tspan x="-40" y="12">No deposit </tspan><tspan x="-31" y="34">required</tspan></text>
+    <g id="_0_Deposit" data-name="0 Deposit" transform="translate(208.959 2849.916)">
+      <path id="Path_5150" data-name="Path 5150" d="M1.04,60.207C6.326,52.6,7.624,49.359,7.624,43.7c0-1.206-.092-2.228-.184-3.243H1.04V34.891l4.733-.553-.653-1.76c-2.5-6.677-2.966-9.642-2.966-14.836V12.825C2.154,5.4,6.326,1.04,13.471,1.04S24.7,5.4,24.7,12.818v9H17.182V13.748c0-4.356-1.022-6.031-3.619-6.031S9.945,9.384,9.945,13.748V17.92A31.731,31.731,0,0,0,12.08,30.443l1.206,3.526H21.63v6.492H14.209a20.3,20.3,0,0,1,.092,2.412c0,5.939-1.022,9.735-4.449,15.489H24.688v7.606H1.04V60.221Z" fill="none" stroke="#303030" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.08"/>
+      <path id="Path_5151" data-name="Path 5151" d="M43,54.648V13.289C43,5.591,47.356,1.05,54.686,1.05S66.372,5.591,66.372,13.289V54.648c0,7.7-4.356,12.239-11.686,12.239S43,62.346,43,54.648Zm15.581-.837V14.119c0-4.64-1.022-6.4-3.9-6.4s-3.9,1.76-3.9,6.4V53.81c0,4.64,1.022,6.4,3.9,6.4s3.9-1.76,3.9-6.4Z" transform="translate(-12.188 -0.003)" fill="none" stroke="#303030" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.08"/>
+    </g>
+  </g>
+</svg>

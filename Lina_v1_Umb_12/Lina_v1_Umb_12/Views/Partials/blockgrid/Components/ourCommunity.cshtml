@@ -1,0 +1,70 @@
+﻿@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@using System;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@using Umbraco.Cms.Core.Models;
+@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>;
+@{
+    var strheading = "";
+    if (Model.Content.HasProperty("heading") && Model.Content.HasValue("heading"))
+    {
+        strheading = Model.Content.Value<string>("heading");
+    }
+    string strurl = "";
+    string strFinalurl = "";
+    if (Model.Content.HasProperty("url") && Model.Content.Value("url") != null
+       && Model.Content.Value<IPublishedContent>("url") != null)
+    {
+        strurl = Model.Content.Value<IPublishedContent>("url").Url();
+        if (strurl != null)
+        {
+            strFinalurl = "href=" + strurl + "";
+
+        }
+    }
+    var strurlText = "";
+    if (Model.Content.HasProperty("urlText") && Model.Content.HasValue("urlText"))
+    {
+        strurlText = Model.Content.Value<string>("urlText");
+    }
+    string strimage = "", strimageAlt = "";
+    if (Model.Content.HasProperty("image") && Model.Content.Value("image") != null
+       && Model.Content.Value<IPublishedContent>("image") != null)
+    {
+        strimage = Model.Content.Value<IPublishedContent>("image").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("imageAlt") && Umbraco.AssignedContentItem.Value("imageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("imageAlt") != "")
+    {
+        strimageAlt = Umbraco.AssignedContentItem.Value<string>("imageAlt");
+    }
+
+
+    <section class="our-community-box" id="ourcommunityandcommitments">
+        <div class="inner info">
+        @if (!string.IsNullOrEmpty(strheading))
+        {
+                <h2>@strheading</h2>
+        }
+        @if (!string.IsNullOrEmpty(strimage))
+        {
+            <div class="community">
+                <article>
+                <a @strFinalurl>
+                        <figure style="background-image: url(@strimage);">
+                            <img alt="@strimageAlt" src="@strimage" />
+                    </figure>
+                    <!-- <section class="bottom">
+                        <label><a href="#">Finishes</a></label>
+                        <h2>It's all<br >in the<br />detail...</h2>
+                    </section> -->
+                </a>
+            </article>
+        </div>
+        }
+            </div>
+    </section>
+}

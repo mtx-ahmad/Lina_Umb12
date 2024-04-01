@@ -1,0 +1,20 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Lina_v1_Umb_12.Custom;
+@{
+	Layout = "WebBase.cshtml";
+}
+<div id="content">
+    <div class="error-404 ">
+        <div class="t-inner">
+            <img src="/images/img-page-not-found.png" />
+            <div>
+                <h1>THE PAGE YOU REQUESTED WASN’T FOUND</h1>
+                <p>The page you were trying to reach does not exist. You may have mistyped the url, or the page may have been moved or deleted.</p>
+                <a class="btn" href="@Configuration.DomainUrl.TrimEnd("/")">Go Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

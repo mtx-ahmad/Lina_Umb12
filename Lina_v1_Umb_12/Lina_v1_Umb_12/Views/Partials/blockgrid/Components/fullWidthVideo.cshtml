@@ -1,0 +1,73 @@
+﻿@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@using System;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@using Umbraco.Cms.Core.Models;
+@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>;
+@{
+    string strvideo = "";
+    if (Model.Content.HasProperty("video") && Model.Content.Value("video") != null
+        && Model.Content.Value<IPublishedContent>("video") != null)
+    {
+        strvideo = Model.Content.Value<IPublishedContent>("video").Url();
+    }
+    string strposterImage = "", strposterImageAlt = "";
+    if (Model.Content.HasProperty("posterImage") && Model.Content.Value("posterImage") != null
+       && Model.Content.Value<IPublishedContent>("posterImage") != null)
+    {
+        strposterImage = Model.Content.Value<IPublishedContent>("posterImage").Url();
+    }
+    if (Model.Content.HasProperty("posterImageAlt") && Model.Content.Value("posterImageAlt") != null
+       && Model.Content.Value<string>("posterImageAlt") != "")
+    {
+        strposterImageAlt = Model.Content.Value<string>("posterImageAlt");
+    }
+    string strvvideoMobile = "";
+    if (Model.Content.HasProperty("videoMobile") && Model.Content.Value("videoMobile") != null
+        && Model.Content.Value<IPublishedContent>("videoMobile") != null)
+    {
+        strvvideoMobile = Model.Content.Value<IPublishedContent>("videoMobile").Url();
+    }
+    string strpposterImageMobile = "", strposterImageMobileAlt = "";
+    if (Model.Content.HasProperty("posterImageMobile") && Model.Content.Value("posterImageMobile") != null
+       && Model.Content.Value<IPublishedContent>("posterImageMobile") != null)
+    {
+        strpposterImageMobile = Model.Content.Value<IPublishedContent>("posterImageMobile").Url();
+    }
+    if (Model.Content.HasProperty("posterImageMobileAlt") && Model.Content.Value("posterImageMobileAlt") != null
+       && Model.Content.Value<string>("posterImageMobileAlt") != "")
+    {
+        strposterImageMobileAlt = Model.Content.Value<string>("posterImageMobileAlt");
+    }
+    if (strvvideoMobile == "")
+    {
+        strvvideoMobile = strvideo;
+    }
+   
+    if (strposterImage == "")
+    {
+        strposterImage = "/images/img-acton-time.jpg";
+    }
+    if (strpposterImageMobile == "")
+    {
+        strpposterImageMobile = "/images/img-acton-time.jpg";
+    }
+    @if (!string.IsNullOrEmpty(strvideo))
+    {
+        <section class="intro-img-box lg">
+            <!-- <figure class="pattern" style="background-image:url(images/img-intro1.jpg);"></figure> -->
+        <!-- <video src="images/home-video.mp4" poster="images/img--home-poster.jpg" muted autoplay muted playsinline loop></video> -->
+            <video class="web" src="@strvideo" type="video/mp4" poster="@strposterImage" muted loop autoplay playsinline>
+            Sorry, your browser doesn't support HTML5 video tag.
+        </video>
+        <img style="display:none;" src="@strposterImage" alt="@strposterImageAlt" />
+            <video class="mobile" src="@strvvideoMobile" type="video/mp4" poster="@strpposterImageMobile" muted loop autoplay playsinline>
+                Sorry, your browser doesn't support HTML5 video tag.
+            </video>
+            <img style="display:none;" src="@strpposterImageMobile" alt="@strposterImageMobileAlt" />
+    </section>
+    }
+}

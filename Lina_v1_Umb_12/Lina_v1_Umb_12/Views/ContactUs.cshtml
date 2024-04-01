@@ -1,0 +1,207 @@
+﻿@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Services;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models.Blocks;
+@using Lina_v1_Umb_12.Custom;
+@{
+    Layout = "WebBase.cshtml";
+    string strleftText = "";
+    if (Umbraco.AssignedContentItem.HasProperty("leftText") && Umbraco.AssignedContentItem.Value("leftText") != null
+        && Umbraco.AssignedContentItem.Value<string>("leftText") != "")
+    {
+        strleftText = Umbraco.AssignedContentItem.Value<string>("leftText");
+    }
+}
+
+<section class="register-box">
+    <div class="inner">
+        @if (!string.IsNullOrEmpty(strleftText))
+        {
+            <article class="left-side">
+                @Html.Raw(strleftText)
+            </article>
+        }
+        <article class="right-side">
+            <div class="form">
+                <aside id="search" class="form-block">
+                    <article class="field">
+                        <label>Full Name:</label>
+                        <div><input id="reg_name" placeholder="" type="text" /></div>
+                    </article>
+                    <article class="field">
+                        <label>Phone number:</label>
+                        <div><input id="phone" name="phone" type="number" /></div>
+                    </article>
+                    <article class="field">
+                        <label>Email address:</label>
+                        <div><input id="reg_email" placeholder="" type="text" /></div>
+                    </article>
+                    <article class="field">
+                        <label>General Enquiry:<span class="sm">Please include details of your enquiry</span></label>
+                        <div><textarea id="reg_message" cols="1" rows="1"></textarea></div>
+                    </article>
+                    <article class="field checkbox one">
+                        <label>How did you hear about Lina?<span>Please select any that apply</span></label>
+                        <div id="id_social">
+                            <label><input type="radio" name="social" value="Word of mouth" /><p>Word of mouth</p></label>
+                            <label><input type="radio" name="social" value="X (formerly Twitter)" /><p>X (formerly Twitter)</p></label>
+                            <label><input type="radio" name="social" value="Facebook" /><p>Facebook</p></label>
+                            <label><input type="radio" name="social" value="Instagram" /><p>Instagram</p></label>
+                            <label><input type="radio" name="social" value="LinkedIn" /><p>LinkedIn</p></label>
+                            <label><input type="radio" name="social" value="Search Engine" /><p>Search Engine</p></label>
+                            <label><input type="radio" name="social" value="Rightmove" /><p>Rightmove</p></label>
+                            <label><input type="radio" name="social" value="Work (discount market rent)" /><p>Work (discount market rent)</p></label>
+                            <label><input type="radio" name="social" value="Other" /><p>Other</p></label>
+                        </div>
+                    </article>
+                    <article class="field checkbox two">
+                        <label>Are you a <br />key worker?</label>
+                        <div>
+                            <label><input type="radio" id="chkName" name="worker" value="Yes" /><p>Yes</p></label>
+                            <label class="select">
+                                <select id="mySelect" disabled>
+                                    <option>Please select from the list</option>
+                                    <option value="Construction">Construction</option>
+                                    <option value="Development">Development</option>
+                                </select>
+                            </label>
+                            <label><input type="radio" name="worker"  value="No" /><p>No</p></label>
+                        </div>
+                    </article>
+                    <article class="field last">
+                        <label><a href="javascript:;" class="btn">ENQUIRE NOW</a></label>
+                        <div>
+                            <span>In processing your enquiry, we will share your details with our agent partners, <br />who will get in touch. For more information, please see our <a href="#">Terms + Conditions</a>.</span>
+                        </div>
+                    </article>
+                    <div id="loading" class="loading-data" style="display: none">
+                        <span id="loading-image" class="ld-icon" />
+                    </div>
+                    <div class="popupv" style="display: none">
+                        <div class="shade"></div>
+                        <div class="popupv-block">
+                            <div class="popupv-block-detail">
+                                <span class="icon-close close-p ir">Close</span>
+                                <h2>Thank you</h2>
+                                <p>Our team will get in touch with you soon.</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn').click(function () {
+            var strname = $("#reg_name").val();
+            var strphone = $("#phone").val();
+            var stremail = $("#reg_email").val();
+            var strdescription = $("#reg_message").val();
+            var strsocials = $('input[name=social]:checked').val();
+            var strkeyworker = $('input[name=worker]:checked').val();
+            var strkeyworkerdropdown = $("#mySelect option:selected").text();
+
+            if (strname == '') {
+                $("#reg_name").addClass('error');
+                $("#reg_name").focus();
+                return false;
+            }
+            else {
+                $("#reg_name").removeClass('error');
+            }
+            if (strphone == '') {
+                $("#phone").addClass('error');
+                $("#phone").focus();
+                return false;
+            }
+            else {
+                $("#phone").removeClass('error');
+            }
+            if (stremail == '') {
+                $("#reg_email").addClass('error');
+                $("#reg_email").focus();
+                return false;
+            }
+            else {
+                $("#reg_email").removeClass('error');
+            }
+
+            if (!validateEmail($("#reg_email").val())) {
+                $("#reg_email").addClass('error');
+                $("#reg_email").focus();
+                return false;
+            } else {
+                $("#reg_email").removeClass('error');
+            }
+
+            if (strdescription == '') {
+                $("#reg_message").addClass('error');
+                $("#reg_message").focus();
+                return false;
+            }
+            else {
+                $("#reg_message").removeClass('error');
+            }
+            if ($('input[name=social]:checked').length === 0) {
+                $("#id_social").addClass('error');
+                return false;
+            } else {
+                $("#id_social").removeClass('error');
+            }
+            if ($('input[name=worker]:checked').length === 0) {
+                alert("Please check any option.")
+                return false;
+            }
+            else{
+            $('input:radio[name="worker"]').change(function () {
+                if ($(this).val() == 'Yes') {
+                    $('.select #mySelect').attr('disabled', false);
+                } else {
+                    $('.select #mySelect').attr('disabled', true);
+                }
+              
+            });
+
+            }
+            if (strkeyworker == "Yes" && strkeyworkerdropdown == "Please select from the list") {
+                alert("Please check any option in the list.")
+            }
+            return false;
+            var data = { StrName: strname, StrPhone: strphone, StrEmail: stremail, StrDescription: strdescription, StrSocials: strsocials, StrKeyworker: strkeyworker, StrKeyWorkerDropdown: strkeyworkerdropdown }
+
+            var urls = "/umbraco/Surface/Contact/ContactDetailMethod";
+            $.ajax({
+
+                url: urls + "/" + data,
+                type: "GET",
+                data: data
+
+            }).done(function (data) {
+                $("#reg_name").val('');
+                $("#reg_email").val('');
+                $("#phone").val('');
+                $("#reg_message").val('');
+                $('input[name=social]:checked').prop("checked", false);
+                $("#id_social").removeClass('error');
+                $('input[name=worker]:checked').prop("checked", false);
+                //window.location.href = '/thank-you/';
+            }).error(function () {
+
+            })
+        });
+        function validateEmail(stremail) {
+            var filter = /^[a-zA-Z0-9._-].+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+            if (filter.test(stremail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+    });
+
+</script>

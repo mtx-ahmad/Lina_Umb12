@@ -1,0 +1,114 @@
+﻿@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@using System;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@using Umbraco.Cms.Core.Models;
+@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>;
+@{
+    var strdescription = "";
+    if (Model.Content.HasProperty("description") && Model.Content.HasValue("description"))
+    {
+        strdescription = Model.Content.Value<string>("description");
+    }
+    var lstlocation = Model.Content.Value<IEnumerable<BlockListItem>>("location");
+    string strleftImage = "", strleftImageAlt = "";
+    if (Model.Content.HasProperty("leftImage") && Model.Content.Value("leftImage") != null
+       && Model.Content.Value<IPublishedContent>("leftImage") != null)
+    {
+        strleftImage = Model.Content.Value<IPublishedContent>("leftImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("leftImageAlt") && Umbraco.AssignedContentItem.Value("leftImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("leftImageAlt") != "")
+    {
+        strleftImageAlt = Umbraco.AssignedContentItem.Value<string>("leftImageAlt");
+    }
+    var strbottomCaption = "";
+    if (Model.Content.HasProperty("bottomCaption") && Model.Content.HasValue("bottomCaption"))
+    {
+        strbottomCaption = Model.Content.Value<string>("bottomCaption");
+    }
+    <section class="location-box info" id="location">
+        <div class="inner">
+            @if (!string.IsNullOrEmpty(strdescription))
+            {
+            <article>
+                    @Html.Raw(strdescription)
+            </article>
+            }
+            <article class="location">
+                @if (!string.IsNullOrEmpty(strleftImage))
+                {
+                    <figure>
+                        @if (!string.IsNullOrEmpty(strleftImage))
+                        {
+                            <img alt="@strleftImageAlt" src="@strleftImage" />
+                        }
+                    </figure>
+                }
+                @if (lstlocation != null && lstlocation.Count() > 0)
+                {
+                    <aside class="station-box">
+                        @foreach (var items in lstlocation)
+                        {
+                            string strlogoSelection = "";
+                            string finallogoselectionclass = "";
+                            if (items.Content.HasProperty("logoSelection") && items.Content.Value("logoSelection") != null && items.Content.Value<string>("logoSelection") != "")
+                            {
+                                strlogoSelection = items.Content.Value<string>("logoSelection");
+                            }
+                            if (strlogoSelection.ToLower() == "green blue circle")
+                            {
+                                finallogoselectionclass = " <span class=\"ca\"><b class=\"circle green\"></b><b class=\"circle blue\"></b></span>";
+                            }
+                            else if (strlogoSelection.ToLower() == "red circle")
+                            {
+                                finallogoselectionclass = " <span class=\"ca\"><b class=\"circle red\"></b></span>";
+                            }
+                            else if (strlogoSelection.ToLower() == "railway blue circle")
+                            {
+                                finallogoselectionclass = "<span class=\"ca\"><b class=\"circle rail\"></b><b class=\"circle purple\"></b></span>";
+                            }
+                            else if (strlogoSelection.ToLower() == "railway orange circle")
+                            {
+                                finallogoselectionclass = "<span class=\"ca\"><b class=\"circle rail\"></b><b class=\"circle orange\"></b></span>";
+                            }
+                            string strstation = "";
+                            if (items.Content.HasProperty("station") && items.Content.Value("station") != null && items.Content.Value<string>("station") != "")
+                            {
+                                strstation = items.Content.Value<string>("station");
+                            }
+                            string strlocation = "";
+                            if (items.Content.HasProperty("location") && items.Content.Value("location") != null && items.Content.Value<string>("location") != "")
+                            {
+                                strlocation = items.Content.Value<string>("location");
+                            }
+                            <p>
+                                @if (!string.IsNullOrEmpty(finallogoselectionclass))
+                                {
+                                    @Html.Raw(finallogoselectionclass)
+                                }
+                                @if (!string.IsNullOrEmpty(strstation))
+                                {
+                                    <label>@strstation</label>
+                                }
+                                @if (!string.IsNullOrEmpty(strlocation))
+                                {
+                                    <small>@strlocation</small>
+                                }
+                            </p>
+                        }
+                      
+                    </aside>
+                    @if (!string.IsNullOrEmpty(strbottomCaption))
+                    {
+                        <figcaption>@strbottomCaption</figcaption>
+                    }
+                }
+            </article>
+
+        </div>
+    </section>
+}

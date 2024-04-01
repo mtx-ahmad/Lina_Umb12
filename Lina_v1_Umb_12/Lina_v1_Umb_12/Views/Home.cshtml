@@ -1,0 +1,262 @@
+﻿@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Services;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models.Blocks;
+@using Lina_v1_Umb_12.Custom;
+
+@{
+    Layout = "WebBase.cshtml";
+    //Header Content
+    string strdesktopVideo = "", strmobileVideo = "";
+
+    if (Umbraco.AssignedContentItem.HasProperty("desktopVideo") && Umbraco.AssignedContentItem.Value("desktopVideo") != null
+        && Umbraco.AssignedContentItem.Value<IPublishedContent>("desktopVideo") != null)
+    {
+        strdesktopVideo = Umbraco.AssignedContentItem.Value<IPublishedContent>("desktopVideo").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("mobileVideo") && Umbraco.AssignedContentItem.Value("mobileVideo") != null
+        && Umbraco.AssignedContentItem.Value<IPublishedContent>("mobileVideo") != null)
+    {
+        strmobileVideo = Umbraco.AssignedContentItem.Value<IPublishedContent>("mobileVideo").Url();
+    }
+    string strposterImage = "", strposterImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("posterImage") && Umbraco.AssignedContentItem.Value("posterImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("posterImage") != null)
+    {
+        strposterImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("posterImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("posterImageAlt") && Umbraco.AssignedContentItem.Value("posterImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("posterImageAlt") != "")
+    {
+        strposterImageAlt = Umbraco.AssignedContentItem.Value<string>("posterImageAlt");
+    }
+    string strposterImageMobile = "", strposterImageMobileAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("posterImageMobile") && Umbraco.AssignedContentItem.Value("posterImageMobile") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("posterImageMobile") != null)
+    {
+        strposterImageMobile = Umbraco.AssignedContentItem.Value<IPublishedContent>("posterImageMobile").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("posterImageMobileAlt") && Umbraco.AssignedContentItem.Value("posterImageMobileAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("posterImageMobileAlt") != "")
+    {
+        strposterImageMobileAlt = Umbraco.AssignedContentItem.Value<string>("posterImageMobileAlt");
+    }
+    if(strmobileVideo == "")
+    {
+        strmobileVideo = strdesktopVideo;
+    }
+    if (strposterImage == "")
+    {
+        strposterImage = "/images/img--home-poster.jpg";
+    }
+    if (strposterImageMobile == "")
+    {
+        strposterImageMobile = "/images/img--home-poster.jpg";
+    }
+    string strbottomCaption = "";
+    if (Umbraco.AssignedContentItem.HasProperty("bottomCaption") && Umbraco.AssignedContentItem.Value("bottomCaption") != null
+        && Umbraco.AssignedContentItem.Value<string>("bottomCaption") != "")
+    {
+        strbottomCaption = Umbraco.AssignedContentItem.Value<string>("bottomCaption");
+    }
+    //Living spaces
+    string strtextImage = "", strtextImageAlt = "";
+    if (Umbraco.AssignedContentItem.HasProperty("textImage") && Umbraco.AssignedContentItem.Value("textImage") != null
+       && Umbraco.AssignedContentItem.Value<IPublishedContent>("textImage") != null)
+    {
+        strtextImage = Umbraco.AssignedContentItem.Value<IPublishedContent>("textImage").Url();
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("textImageAlt") && Umbraco.AssignedContentItem.Value("textImageAlt") != null
+       && Umbraco.AssignedContentItem.Value<string>("textImageAlt") != "")
+    {
+        strtextImageAlt = Umbraco.AssignedContentItem.Value<string>("textImageAlt");
+    }
+    string strtext = "";
+    if (Umbraco.AssignedContentItem.HasProperty("text") && Umbraco.AssignedContentItem.Value("text") != null
+      && Umbraco.AssignedContentItem.Value<string>("text") != "")
+    {
+        strtext = Umbraco.AssignedContentItem.Value<string>("text");
+    }
+    var strlivingSpace = Umbraco.AssignedContentItem.Value<IEnumerable<BlockListItem>>("livingSpace");
+
+    string stravailableServices = "";
+    if (Umbraco.AssignedContentItem.HasProperty("availableServices") && Umbraco.AssignedContentItem.Value("availableServices") != null
+      && Umbraco.AssignedContentItem.Value<string>("availableServices") != "")
+    {
+        stravailableServices = Umbraco.AssignedContentItem.Value<string>("availableServices");
+    }
+
+    //Header and footer content
+    string stravailableText = "";
+    if (Umbraco.AssignedContentItem.HasProperty("availableText") && Umbraco.AssignedContentItem.Value("availableText") != null
+      && Umbraco.AssignedContentItem.Value<string>("availableText") != "")
+    {
+        stravailableText = Umbraco.AssignedContentItem.Value<string>("availableText");
+    }
+    string strleftButtonText = "", strrightButtonText = "";
+    var strleftLink = Model.Value<Link>("leftLink");
+    var strrightLink = Model.Value<Link>("rightLink");
+    if (Umbraco.AssignedContentItem.HasProperty("leftButtonText") && Umbraco.AssignedContentItem.Value("leftButtonText") != null
+      && Umbraco.AssignedContentItem.Value<string>("leftButtonText") != "")
+    {
+        strleftButtonText = Umbraco.AssignedContentItem.Value<string>("leftButtonText");
+    }
+    if (Umbraco.AssignedContentItem.HasProperty("rightButtonText") && Umbraco.AssignedContentItem.Value("rightButtonText") != null
+      && Umbraco.AssignedContentItem.Value<string>("rightButtonText") != "")
+    {
+        strrightButtonText = Umbraco.AssignedContentItem.Value<string>("rightButtonText");
+    }
+}
+@if (!string.IsNullOrEmpty(strdesktopVideo))
+{
+    <section class="intro-img-box">
+        <!-- <figure class="pattern" style="background-image:url(images/img-intro1.jpg);"></figure> -->
+        <!-- <video src="images/home-video.mp4" poster="images/img--home-poster.jpg" muted autoplay muted playsinline loop></video> -->
+        <video class="web" src="@strdesktopVideo" type="video/mp4" poster="@strposterImage" muted loop autoplay playsinline>
+            Sorry, your browser doesn't support HTML5 video tag.
+        </video>
+        <img src="@strposterImage" alt="@strposterImageAlt" style="display:none">
+        <video class="mobile" src="@strmobileVideo" type="video/mp4" poster="@strposterImageMobile" muted loop autoplay playsinline>
+            Sorry, your browser doesn't support HTML5 video tag.
+        </video>
+        <img src="@strposterImageMobile" alt="@strposterImageMobileAlt" style="display:none">
+    </section>
+}
+@if (!string.IsNullOrEmpty(strbottomCaption))
+{
+    <section class="intro-text-box">
+        <div class="inner">
+            <article><h1>@strbottomCaption</h1></article>
+        </div>
+    </section>
+}
+<section class="apartment-list-box info" id="apartments">
+    <div class="inner">
+        <h2>@if (!string.IsNullOrEmpty(strbottomCaption))
+            {
+                <img alt="@strtextImageAlt" src="@strtextImage" />
+            }
+            @if (!string.IsNullOrEmpty(strtext))
+            {
+                <b>@strtext</b>
+            }
+        </h2>
+        @if (strlivingSpace != null && strlivingSpace.Count() > 0)
+        {
+            int CountVlaue = 1;
+            <section class="apartment">
+                @foreach (var conn in strlivingSpace)
+                {
+                    var item = conn.Content;
+                    var AvailableSpacesClass = "";
+                    if (CountVlaue == 1)
+                    {
+                        AvailableSpacesClass = "one";
+                    }
+                    else if (CountVlaue == 2)
+                    {
+                        AvailableSpacesClass = "two";
+                    }
+                    else if (CountVlaue == 3)
+                    {
+                        AvailableSpacesClass = "level";
+                    }
+                    string strurl = "";
+                    string strFinalurl = "";
+                    if (item.HasProperty("url") && item.Value("url") != null
+                    && item.Value<IPublishedContent>("url") != null)
+                    {
+                        strurl = item.Value<IPublishedContent>("url").Url();
+
+                        if (strurl != null)
+                        {
+                            strFinalurl = "href=" + strurl + "";
+
+                        }
+                    }
+
+                    string strdesktopImage = "", strdesktopImageAlt = "";
+                    if (item.HasProperty("desktopImage") && item.Value("desktopImage") != null
+                    && item.Value<IPublishedContent>("desktopImage") != null)
+                    {
+                        strdesktopImage = item.Value<IPublishedContent>("desktopImage").Url();
+                    }
+                    if (item.HasProperty("desktopImageAlt") && item.Value("desktopImageAlt") != null
+                    && item.Value<string>("desktopImageAlt") != "")
+                    {
+                        strdesktopImageAlt = item.Value<string>("desktopImageAlt");
+                    }
+                    string strmobileImage = "", strmobileImageAlt = "";
+                    if (item.HasProperty("mobileImage") && item.Value("mobileImage") != null
+                    && item.Value<IPublishedContent>("mobileImage") != null)
+                    {
+                        strmobileImage = item.Value<IPublishedContent>("mobileImage").Url();
+                    }
+                    if (item.HasProperty("mobileImageAlt") && item.Value("mobileImageAlt") != null
+                    && item.Value<string>("mobileImageAlt") != "")
+                    {
+                        strmobileImageAlt = item.Value<string>("mobileImageAlt");
+                    }
+                    if (strmobileImage == "")
+                    {
+                        strmobileImage = strdesktopImage;
+                        strmobileImageAlt = strdesktopImageAlt;
+                    }
+                    string strtype = "";
+                    if (item.HasProperty("type") && item.Value("type") != null
+                    && item.Value<string>("type") != "")
+                    {
+                        strtype = item.Value<string>("type");
+                    }
+                    string strprice = "";
+                    if (item.HasProperty("price") && item.Value("price") != null
+                    && item.Value<string>("price") != "")
+                    {
+                        strprice = item.Value<string>("price");
+                    }
+                    @if (!string.IsNullOrEmpty(strdesktopImage))
+                    {
+                        <article class="@AvailableSpacesClass">
+                            <a @strFinalurl>
+                                <section class="slide">
+                                    <figure class="web" style="background-image:url(@strdesktopImage});">
+                                        <img src="@strdesktopImage" alt="@strdesktopImageAlt">
+                                    </figure>
+                                    <figure class="mobile" style="background-image:url(@strmobileImage);">
+                                        <img src="@strmobileImage" alt="@strmobileImageAlt">
+                                    </figure>
+                                </section>
+                                @if (!string.IsNullOrEmpty(strtype))
+                                {
+                                    <section class="bedroom"><figure class="db-text one">@strtype</figure></section>
+                                }
+                                @if (!string.IsNullOrEmpty(strprice))
+                                {
+                                    <section class="text-box">
+                                        <p>From £@strprice</p>
+                                    </section>
+                                }
+                            </a>
+                        </article>
+                        CountVlaue++;
+                    }
+                }
+
+            </section>
+        }
+        @if (!string.IsNullOrEmpty(stravailableServices))
+        {
+            <section class="furnished">
+                <article>
+                    @Html.Raw(stravailableServices)
+                </article>
+            </section>
+        }
+    </div>
+</section>
+
+@if (Umbraco.AssignedContentItem.Value("gridItems") != null)
+{
+    @await Html.GetBlockGridHtmlAsync(Model, "gridItems")
+}

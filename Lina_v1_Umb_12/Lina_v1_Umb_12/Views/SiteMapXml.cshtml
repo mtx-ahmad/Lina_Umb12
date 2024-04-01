@@ -1,0 +1,60 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = null;
+}
+@{
+    int level = 10;
+    IPublishedContent siteHomePage = Model.Root();
+    Context.Response.ContentType = "text/xml";
+}
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://www.google.com/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+    @{
+        RenderSiteMapUrlEntry(siteHomePage);
+        RenderSiteMapUrlEntriesForChildren(siteHomePage);
+    }
+
+</urlset>
+
+@functions {
+
+
+    void RenderSiteMapUrlEntry(IPublishedContent node)
+    {
+        var changeFreq = node.Value("searchEngineChangeFrequency", fallback: Fallback.To(Fallback.Ancestors, Fallback.DefaultValue), defaultValue: "monthly");
+        // with the relative priority, this is a per page setting only, so we're not using recursion, so we won't set Fallback.ToAncestors here and we'll default to 0.5 if no value is set
+        var priority = node.HasValue("searchEngineRelativePriority") ? node.Value<string>("searchEngineRelativePriority") : "0.5";
+
+        <url>
+            <loc>@node.Url(mode: UrlMode.Absolute)</loc>
+            <lastmod>@(string.Format("{0:s}+00:00", node.UpdateDate))</lastmod>
+            <changefreq>monthly</changefreq>
+            <priority>0.5</priority>
+        </url>
+
+    }
+
+    void RenderSiteMapUrlEntriesForChildren(IPublishedContent parentPage)
+    {
+        foreach (var page in parentPage.Children.Where(f => !f.Value<bool>("hideInSitemap")))
+        {
+            if (page.Name.ToLower() == "sitemap" || page.Name.ToLower() == "sitemapxml" || page.Name.ToLower() == "thank you" || page.Name.ToLower() == "404 error" || page.Name.ToLower() == "search results"
+       || page.Name.ToLower() == "featured" || page.Name.ToLower() == "page not found")
+            {
+                continue;
+            }
+
+
+            RenderSiteMapUrlEntry(page);
+            if (page.Level < 10 && page.Children.Any(x => !x.Value<bool>("hideFromXmlSiteMap")))
+            {
+                RenderSiteMapUrlEntriesForChildren(page);
+            }
+        }
+
+    }
+
+
+}

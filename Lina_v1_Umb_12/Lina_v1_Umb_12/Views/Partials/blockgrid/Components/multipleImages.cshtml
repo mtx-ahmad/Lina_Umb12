@@ -1,0 +1,41 @@
+﻿@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@using System;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@using Umbraco.Cms.Core.Models;
+@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>;
+@{
+    var lstslider = Model.Content.Value<IEnumerable<BlockListItem>>("slider");
+    @if (lstslider != null && lstslider.Count() > 0)
+    {
+        <section class="home-slide-box">
+            <div class="sx">
+                @foreach (var items in lstslider)
+                {
+                    string strImage = "", strImageAlt = "";
+                    if (items.Content.HasProperty("image") && items.Content.Value("image") != null && items.Content.Value<string>("image") != "")
+                    {
+                        strImage = items.Content.Value<IPublishedContent>("image").Url();
+                    }
+                    if (items.Content.HasProperty("imageAlt") && items.Content.Value("imageAlt") != null && items.Content.Value<string>("imageAlt") != "")
+                    {
+                        strImageAlt = items.Content.Value<string>("imageAlt");
+                    }
+                    @if (!string.IsNullOrEmpty(strImage))
+                    {
+                        <article>
+                            <figure style="background-image: url(@strImage);">
+                                <img alt="@strImageAlt" src="@strImage" />
+                            </figure>
+                        </article>
+                    }
+                }
+            </div>
+            <a class="arrow l"></a>
+            <a class="arrow r"></a>
+        </section>
+    }
+}

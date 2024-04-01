@@ -1,0 +1,140 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+.main-section{width:100%;float:left;margin:0 0 20px 0;padding:20px 20px;border: 1px solid #efeeee;box-sizing:border-box;}
+ .main-section h2 {width: 100%;float: left; box-sizing: border-box;padding: 0 0 7px 0px;margin: 0 0 15px 0;font-size: 25px;font-family: 'Bitter', serif;font-weight: 700;color: #000; border-bottom: solid 7px #ff9a00;}
+
+
+ .main-section div{width:100%;float:left;margin:0;padding:0 0 20px 0px;box-sizing:border-box;height:50px !important;}
+ .main-section label {width: 27.40%;float: left;font-weight: normal;    font-family: 'Calibri';font-style: normal;font-size: 16px;color: #333;padding: 7px 0 0 0;margin: 0;}
+  {width: 17.40%;float: left;font-weight: normal;font-family: "metamedium";font-style: normal;font-size: 15px;color: #000000;padding: 7px 0 0 0;margin: 0;}
+ .main-section input[type="text"] {font-weight: normal;    font-family: 'Calibri';font-style: normal;font-size: 15px;color: #000000;padding: 7px 0 7px 10px;margin: 0;border: solid 1px #ccc;float: left;line-height: normal !important;width:50%;}
+ .main-section input[type="date"] {font-weight: normal;    font-family: 'Calibri';font-style: normal;font-size: 15px;color: #000000;padding: 7px 0 7px 10px;margin: 0;border: solid 1px #ccc;float: left;line-height: normal !important;width:23%;margin:0 2.2% 0 0;}
+ .main-section input[type="time"] {font-weight: normal;    font-family: 'Calibri';font-style: normal;font-size: 15px;color: #000000;padding: 7px 0 7px 10px;margin: 0;border: solid 1px #ccc;float: left;line-height: normal !important;width:23.4%;}
+ .main-section input[type="checkbox"] {font-weight: normal;    font-family: 'Calibri';font-style: normal;font-size: 15px;color: #000000;padding: 7px 0 7px 10px;margin: 0;border: solid 1px #ccc;float: left;line-height: normal !important;width:auto;-ms-transform: scale(2);margin:5px 0 0 6px;-moz-transform: scale(2);-webkit-transform: scale(2);-o-transform: scale(2);}
+
+ .main-section input:focus[type="text"]{outline: none;border-color: #ccc;box-shadow: 0 0 5px #ccc;}
+ .main-section input:focus[type="time"]{outline: none;border-color: #ccc;box-shadow: 0 0 5px #ccc;}
+ .main-section input:focus[type="date"]{outline: none;border-color: #ccc;box-shadow: 0 0 5px #ccc;}
+
+
+ .btn{width:auto;margin:0px 0px 0 27.40%;position:relative;color: #343434;height: auto;padding: 1% 2%;text-align:center;background-color:#ccc;font-family: 'Calibri';font-weight:600;font-style:normal;font-size:16px;box-sizing:border-box;float:left;border:solid 1px #ccc; cursor: pointer; color:#817a7a}
+ .btn:hover{color: #fff;background-color:#817a7a;border:solid 1px #817a7a;}
+    </style>
+    
+</head>
+<body>
+   
+        <div class="main-section">
+            <div>
+                <label>   From Date:</label>
+                <input type="date" min="2010-01-01" max="2030-01-01" id="fromdate" />
+            </div>
+            <div>
+                <label> To Date:</label>
+                <input type="date" min="2010-01-01" max="2030-01-01" id="todate" />
+            </div>
+            <div>
+                <label>   Download for all Dates </label>
+                <input type="checkbox" id="chkDownloadAll" />
+            </div>
+            <!--<div>
+                <label>Download</label>
+                <select id="drpSelectPage">
+                    <option value="1">Contact</option>
+                    <option value="2">Song</option>
+                 
+                </select>
+            </div>-->
+            <div>
+              
+                <div style="width:100%" id="showRequired">
+                    <span  style="width: 27.40%;float:left;margin:5px 0px 0 0;">Required Competition</span>
+                    <div style="width:auto" id="selectedcompetition">
+
+                    </div>
+                </div>
+            </div>
+        
+       
+            <input class="btn" type="button" id="btnExport" value=" Export data into Excel " />
+          
+
+        </div>
+
+
+
+     
+
+
+
+</body>
+</html>
+
+
+
+
+
+<script type="text/javascript">
+    //var dropdownvalue = '1';
+    $(document).ready(function () {
+        
+        $('#showRequired').hide();
+        //$(document).on("change", "#drpSelectPage", function () {
+        //    var dropdownvalue = this.value;
+           
+        //    if (this.value == "2" || this.value == "3" || this.value == "4" || this.value == "6") {
+        //        $('#showRequired').hide();
+        //    } else {
+        //        $('#showRequired').show();
+        //        //alert(dropdownvalue)
+        //        loadcompetitions(dropdownvalue)
+        //    }
+            
+        //});
+
+        document.getElementById("todate").valueAsDate = new Date();
+        var days = 7;
+        var date = new Date();
+        var res = date.setTime(date.getTime() - (days * 24 * 60 * 60 * 1000));
+        document.getElementById("fromdate").valueAsDate = new Date(res);
+     
+        //loadcompetitions(dropdownvalue);
+      
+    });
+
+
+  
+    $("#btnExport").click(function (e) {
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        var drpSelectPage = $('select[id=drpSelectPage]').val();
+        var chkDownloadAll = $("#chkDownloadAll").is(':checked');
+      
+        AajaxCallToCompetitions(fromdate, todate, chkDownloadAll);
+    });
+
+    function AajaxCallToCompetitions(fromdate, todate, chkDownloadAll) {
+
+        window.open('/umbraco/Surface/ExcelDownload/Download?fromdate='+fromdate+'&todate='+todate+'&chkDownloadAll='+chkDownloadAll+'');
+
+        return;
+      
+        var urls = "/umbraco/Surface/ExcelDownload/Download";
+        $.ajax({
+            url: urls,
+            type: "GET",
+            data: { fromdate: fromdate, todate: todate, chkDownloadAll: chkDownloadAll }
+           
+
+        }).done(function (data) {
+       
+           
+
+        }).error(function () { alert("Failure"); });
+    }
+</script>

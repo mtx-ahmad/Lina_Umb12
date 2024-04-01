@@ -1,0 +1,53 @@
+﻿@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "WebBase.cshtml";
+}
+<div class="content-inner">
+    <div class="info-detail">
+        <div class="inner">
+
+            <div class="site-map">
+                <h1>Sitemap</h1>
+                <ul>
+                    <li><a href="~/">Home</a></li>
+                    @{
+                        var HomePage = Umbraco.ContentAtRoot().First();
+                        var PageId = HomePage.Id;
+                        var selection = HomePage.Children().Where(x => x.IsVisible());
+                    }
+                    @foreach (var item in selection)
+                    {
+                        if (item.Name.ToLower() == "sitemap"
+                        || item.Name.ToLower() == "sitemapxml"
+                        || item.Name.ToLower() == "thank you"
+                        || item.Name.ToLower() == "404 error"
+                        || item.Name.ToLower() == "page not found")
+                        {
+                            continue;
+                        }
+                        <li>
+                            <a href="@item.Url().TrimEnd('/')">@item.Name</a>
+                            @{
+                                var selection2 = item.Children;
+                                <ul class="child">
+                                    @foreach (var itemit in selection2)
+                                    {
+                                        <li>
+                                            <a href="@itemit.Url().TrimEnd('/')">@itemit.Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+
+
+
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

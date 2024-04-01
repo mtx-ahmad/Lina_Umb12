@@ -1,0 +1,57 @@
+﻿@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@using System;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@using Umbraco.Cms.Core.Models;
+@using Lina_v1_Umb_12.Custom;
+@using Umbraco.Cms.Core.Models.Blocks;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>;
+@{
+    var strheading = "";
+    if (Model.Content.HasProperty("heading") && Model.Content.HasValue("heading"))
+    {
+        strheading = Model.Content.Value<string>("heading");
+    }
+    var lstfacilities = Model.Content.Value<IEnumerable<BlockListItem>>("facilities");
+    <section class="living-lina-box info" id="livingatlina">
+        <div class="inner">
+            @if (!string.IsNullOrEmpty(strheading))
+            {
+                <h2>@strheading</h2>
+            }
+            @if (lstfacilities != null && lstfacilities.Count() > 0)
+            {
+                <section>
+                    @foreach (var items in lstfacilities)
+                    {
+                        string strImage = "", strImageAlt = "", strstandFirst = "";
+                        if (items.Content.HasProperty("image") && items.Content.Value("image") != null && items.Content.Value<string>("image") != "")
+                        {
+                            strImage = items.Content.Value<IPublishedContent>("image").Url();
+                        }
+                        if (items.Content.HasProperty("imageAlt") && items.Content.Value("imageAlt") != null && items.Content.Value<string>("imageAlt") != "")
+                        {
+                            strImageAlt = items.Content.Value<string>("imageAlt");
+                        }
+                        if (items.Content.HasProperty("standFirst") && items.Content.Value("standFirst") != null && items.Content.Value<string>("standFirst") != "")
+                        {
+                            strstandFirst = items.Content.Value<string>("standFirst");
+                        }
+                        @if (!string.IsNullOrEmpty(strImage))
+                        {
+                            <article>
+                                <figure style="background-image: url(@strImage);"><img alt="@strImageAlt" src="@strImage" /></figure>
+                                @if (!string.IsNullOrEmpty(strstandFirst))
+                                {
+                                    <p>@strstandFirst</p>
+                                }
+                            </article>
+                        }
+                    }
+                </section>
+            }
+        </div>
+        <span class="graphic"></span>
+    </section>
+}

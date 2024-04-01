@@ -1,0 +1,22 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "WebBase.cshtml";
+    string strdescription = "";
+    if (Umbraco.AssignedContentItem.HasProperty("description") && Umbraco.AssignedContentItem.Value("description") != null
+        && Umbraco.AssignedContentItem.Value<string>("description") != "")
+    {
+        strdescription = Umbraco.AssignedContentItem.Value<string>("description");
+    }
+}
+
+@if (!string.IsNullOrEmpty(strdescription))
+{
+<section class="terms-box info">
+    <div class="inner">
+        <article>
+            @Html.Raw(strdescription)
+        </article>
+    </div>
+</section>
+}
